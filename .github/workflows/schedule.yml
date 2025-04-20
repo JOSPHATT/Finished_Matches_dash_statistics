@@ -25,12 +25,6 @@ jobs:
         run: |
           python app/main.py
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: team-dashboard
-          path: output/team_dashboard.html
-
       - name: Commit and push changes (optional if you want auto-commit to repo)
         run: |
           git config --global user.name 'github-actions'
