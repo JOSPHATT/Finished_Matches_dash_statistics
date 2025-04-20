@@ -1,0 +1,40 @@
+# .github/workflows/schedule.yml
+# ---
+name: Generate Dashboard Daily
+ on:
+   schedule:
+     - cron: '0 0 * * *'  # Every day at midnight UTC
+   workflow_dispatch:
+ jobs:
+   build:
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout repo
+         uses: actions/checkout@v3
+
+       - name: Set up Python
+         uses: actions/setup-python@v4
+         with:
+           python-version: '3.10'
+
+       - name: Install dependencies
+         run: |
+           pip install pandas plotly
+
+       - name: Run dashboard generation
+         run: |
+           python app/main.py
+
+       - name: Upload artifact
+         uses: actions/upload-artifact@v3
+         with:
+           name: team-dashboard
+           path: output/team_dashboard.html
+
+       - name: Commit and push changes (optional if you want auto-commit to repo)
+         run: |
+           git config --global user.name 'github-actions'
+           git config --global user.email 'github-actions@github.com'
+           git add output/*
+           git commit -m 'Daily update team dashboard' || echo "No changes to commit"
+           git push || echo "No changes to push"
