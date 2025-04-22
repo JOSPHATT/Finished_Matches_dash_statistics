@@ -18,6 +18,7 @@ def generate_dashboard():
         df['home_team_goal'] = df['H_GOALS']
         df['away_team_goal'] = df['A_GOALS']
 
+    # Process home data
     home_df = df[['HOME', 'home_team_goal', 'away_team_goal']].copy()
     home_df.columns = ['TEAM', 'goals_for', 'goals_against']
     home_df['matches_played'] = 1
@@ -25,6 +26,7 @@ def generate_dashboard():
     home_df['matches_drawn'] = (home_df['goals_for'] == home_df['goals_against']).astype(int)
     home_df['matches_lost'] = (home_df['goals_for'] < home_df['goals_against']).astype(int)
 
+    # Process away data
     away_df = df[['AWAY', 'away_team_goal', 'home_team_goal']].copy()
     away_df.columns = ['TEAM', 'goals_for', 'goals_against']
     away_df['matches_played'] = 1
@@ -32,6 +34,7 @@ def generate_dashboard():
     away_df['matches_drawn'] = (away_df['goals_for'] == away_df['goals_against']).astype(int)
     away_df['matches_lost'] = (away_df['goals_for'] < away_df['goals_against']).astype(int)
 
+    # Combine home and away data
     team_df = pd.concat([home_df, away_df])
     team_stats = team_df.groupby('TEAM').sum().reset_index()
     team_stats['goal_difference'] = team_stats['goals_for'] - team_stats['goals_against']
@@ -43,38 +46,17 @@ def generate_dashboard():
     team_stats['loss_rate'] = (team_stats['matches_lost'] / team_stats['matches_played']) * 100
     team_stats['scoring_strength'] = team_stats['goals_scored_per_match'] + (0.5 * team_stats['goal_difference_per_match'])
 
-    # Save to CSV
-    os.makedirs('output', exist_ok=True)
-    team_stats.to_csv('output/team_statistics.csv', index=False)
+    # Append to existing CSV in the repository
+    output_file_path = 'team_statistics.csv'  # Path to the CSV file in the repository
+    if os.path.exists(output_file_path):
+        # Append to the existing CSV file
+        existing_data = pd.read_csv(output_file_path)
+        combined_data = pd.concat([existing_data, team_stats]).drop_duplicates().reset_index(drop=True)
+        combined_data.to_csv(output_file_path, index=False)
+    else:
+        # Create the file if it doesn't exist
+        team_stats.to_csv(output_file_path, index=False)
 
-    # Generate figures
-    top_teams = team_stats.sort_values(by='matches_played', ascending=False).head(15)
-    fig1 = px.bar(top_teams, x='TEAM', y='scoring_strength', title='Top 15 Teams: Matches Played vs Scoring Strength', labels={'scoring_strength':'Scoring Strength'}, text='matches_played')
-    fig2 = px.bar(top_teams, x='TEAM', y='goal_difference', title='Top 15 Teams: Matches Played vs Goal Difference', labels={'goal_difference':'Goal Difference'}, text='matches_played')
-
-    # Export to HTML
-    html_string = f"""
-    <html>
-    <head>
-        <title>Team Statistics Dashboard</title>
-        <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    </head>
-    <body>
-        <h1>Team Statistics Dashboard</h1>
-        <div id='scoring_strength' style='width:100%;height:500px;'></div>
-        <div id='goal_difference' style='width:100%;height:500px;'></div>
-        <script>
-            var fig1 = {fig1.to_json()};
-            var fig2 = {fig2.to_json()};
-            Plotly.newPlot('scoring_strength', fig1.data, fig1.layout);
-            Plotly.newPlot('goal_difference', fig2.data, fig2.layout);
-        </script>
-    </body>
-    </html>
-    """
-
-    with open("output/team_dashboard.html", "a") as f:
-        f.write(html_string)
 
 if __name__ == "__main__":
     generate_dashboard()
