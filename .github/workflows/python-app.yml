@@ -14,9 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions: 
       contents: write
-  monitor_and_dashboard:
-    runs-on: ubuntu-latest
-    timeout-minutes: 3  # Timeout after 3 minutes
+  
 
     steps:
       - name: Checkout repository content
@@ -32,7 +30,7 @@ jobs:
 
       - name: Execute Python script 
         run: |
-          python main.py 
+          python main.py & python streamlit_main.py
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
