@@ -54,16 +54,15 @@ def main():
     # Display various charts
     st.subheader("Charts")
 
-    # Goals scored vs Goals conceded
-    st.markdown("### Goals Scored vs. Goals Conceded")
-    fig1 = px.scatter(
+    # Win Rate Distribution
+    st.markdown("### Win Rate Distribution")
+    fig2 = px.bar(
         filtered_data,
-        x="goals_for",
-        y="goals_against",
-        size="goal_difference",
+        x="TEAM",
+        y="scoring_strength",
         color="TEAM",
-        title="Goals Scored vs. Goals Conceded",
-        labels={"goals_for": "Goals Scored", "goals_against": "Goals Conceded"},
+        title="scoring strength Distribution",
+        labels={"scoring_strength": "Scoring Strength (%)"},
     )
     st.plotly_chart(fig1)
 
