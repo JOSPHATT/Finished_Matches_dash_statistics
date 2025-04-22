@@ -3,6 +3,8 @@ import plotly.express as px
 import streamlit as st
 import os
 import time
+import watchdog 
+import filelock
 
 
 def update_data_to_csv():
