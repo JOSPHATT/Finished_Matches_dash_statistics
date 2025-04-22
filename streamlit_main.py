@@ -4,8 +4,7 @@ import plotly.express as px
 import os
 
 
-def load_data(file_path):
-    """
+def load_data(file_path):   """
     Load data from the CSV file if it exists.
     """
     if os.path.exists(file_path):
