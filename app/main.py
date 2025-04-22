@@ -73,7 +73,7 @@ def generate_dashboard():
     </html>
     """
 
-    with open("output/team_dashboard.html", "w") as f:
+    with open("output/team_dashboard.html", "a") as f:
         f.write(html_string)
 
 if __name__ == "__main__":
