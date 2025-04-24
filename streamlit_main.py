@@ -54,7 +54,7 @@ def main():
 
     # Win Rate Distribution
     st.markdown("### Scoring strength Distribution")
-    fig1 = px.bar(
+    """fig1 = px.bar(
         filtered_data,
         x="TEAM",
         y="scoring_strength",
@@ -63,7 +63,7 @@ def main():
         labels={"scoring_strength": "Scoring Strength (%)"},
     )
     st.plotly_chart(fig1)
-
+"""
     # Win Rate Distribution
     st.markdown("### Win Rate Distribution")
     fig2 = px.bar(
