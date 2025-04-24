@@ -18,7 +18,7 @@ def load_data(file_path):
         return None
 
 
-def main():
+def stream_main():
     st.title("Team Statistics Dashboard")
     st.markdown("This dashboard displays interactive charts based on team statistics.")
 
@@ -52,41 +52,7 @@ def main():
     # Display various charts
     st.subheader("Charts")
 
-    # Win Rate Distribution
-    st.markdown("### Scoring strength Distribution")
-    """fig1 = px.bar(
-        filtered_data,
-        x="TEAM",
-        y="scoring_strength",
-        color="TEAM",
-        title="scoring strength Distribution",
-        labels={"scoring_strength": "Scoring Strength (%)"},
-    )
-    st.plotly_chart(fig1)
-"""
-    # Win Rate Distribution
-    st.markdown("### Win Rate Distribution")
-    fig2 = px.bar(
-        filtered_data,
-        x="TEAM",
-        y="win_rate",
-        color="TEAM",
-        title="Win Rate Distribution",
-        labels={"win_rate": "Win Rate (%)"},
-    )
-    st.plotly_chart(fig2)
-
-    # Goals Scored Per Match
-    st.markdown("### Goals Scored Per Match")
-    fig3 = px.line(
-        filtered_data,
-        x="TEAM",
-        y="goals_scored_per_match",
-        title="Goals Scored Per Match",
-        labels={"goals_scored_per_match": "Goals Scored Per Match"},
-    )
-    st.plotly_chart(fig3)
-
+    
     # Custom chart options
     st.sidebar.title("Custom Chart Options")
     chart_type = st.sidebar.selectbox("Select Chart Type", ["Bar Chart", "Line Chart", "Scatter Plot"])
@@ -125,4 +91,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    stream_main()
