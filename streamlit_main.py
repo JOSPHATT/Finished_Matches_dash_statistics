@@ -53,8 +53,8 @@ def main():
     st.subheader("Charts")
 
     # Win Rate Distribution
-    st.markdown("### Win Rate Distribution")
-    fig2 = px.bar(
+    st.markdown("### Scoring strength Distribution")
+    fig1 = px.bar(
         filtered_data,
         x="TEAM",
         y="scoring_strength",
