@@ -64,7 +64,7 @@ def stream_main():
 
     st.markdown(f"### Custom Chart: {chart_type}")
     if chart_type == "Bar Chart":
-        fig4 = px.bar(
+        fig1 = px.bar(
             filtered_data,
             x="TEAM",
             y=stat_column,
@@ -72,14 +72,14 @@ def stream_main():
             title=f"{stat_column.replace('_', ' ').title()} Distribution",
         )
     elif chart_type == "Line Chart":
-        fig4 = px.line(
+        fig1 = px.line(
             filtered_data,
             x="TEAM",
             y=stat_column,
             title=f"{stat_column.replace('_', ' ').title()} Over Teams",
         )
     else:  # Scatter Plot
-        fig4 = px.scatter(
+        fig1 = px.scatter(
             filtered_data,
             x="TEAM",
             y=stat_column,
@@ -87,7 +87,7 @@ def stream_main():
             color="TEAM",
             title=f"{stat_column.replace('_', ' ').title()} Scatter Plot",
         )
-    st.plotly_chart(fig4)
+    st.plotly_chart(fig1)
 
 
 if __name__ == "__main__":
