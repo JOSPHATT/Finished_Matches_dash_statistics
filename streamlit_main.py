@@ -58,7 +58,7 @@ def stream_main():
     chart_type = st.sidebar.selectbox("Select Chart Type", ["Bar Chart", "Line Chart", "Scatter Plot"])
     stat_column = st.sidebar.selectbox(
         "Select Statistic",
-        options=["goals_for", "goals_against", "win_rate", "loss_rate", "draw_rate"],
+        options=["goals_for", "goals_against", "win_rate", "loss_rate", "draw_rate", "scoring_strength"],
         index=0,
     )
 
