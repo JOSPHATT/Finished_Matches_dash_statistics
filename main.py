@@ -105,6 +105,7 @@ from sklearn.linear_model import LinearRegression
 import numpy as np
 
 def update_weights_and_predict(TOP_TEAMS, actual_goals_column):
+    #global TOP_TEAMS
     # Features used for prediction
     features = ['goals_scored_per_match', 'goal_difference_per_match', 'win_rate', 'scoring_strength']
 
@@ -130,11 +131,12 @@ def update_weights_and_predict(TOP_TEAMS, actual_goals_column):
     #print("Updated weights:", dict(zip(features, new_weights)))
     #print("Updated bias:", new_bias)
 # Example usage:
-# TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='actual_goals_last_match')
+TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='actual_goals_last_match')
 
 def update_data_to_csv():
-    TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='Previous_goals')
-    team_stats = TOP_TEAMS.drop(['expected', 'previous_goals'], axis=1)
+    global TOP_TEAMS
+    TOP_teams = update_weights_and_predict(TOP_TEAMS, actual_goals_column='Previous_goals')
+    team_stats = TOP_teams.drop(['expected', 'previous_goals'], axis=1)
     try:
         # Append to existing CSV in the repository
         output_file_path = 'team_statistics.csv'  # Path to the CSV file in the repository
