@@ -130,6 +130,7 @@ def update_weights_and_predict(TOP_TEAMS, actual_goals_column):
     # Optionally print new weights
     #print("Updated weights:", dict(zip(features, new_weights)))
     #print("Updated bias:", new_bias)
+    return TOP_TEAMS
 # Example usage:
 #TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='actual_goals_last_match')
 
