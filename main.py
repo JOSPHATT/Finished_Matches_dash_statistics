@@ -57,6 +57,17 @@ def update_data_to_csv():
         team_stats['draw_rate'] = (team_stats['matches_drawn'] / team_stats['matches_played']) * 100
         team_stats['loss_rate'] = (team_stats['matches_lost'] / team_stats['matches_played']) * 100
         team_stats['scoring_strength'] = team_stats['goals_scored_per_match'] + (0.5 * team_stats['goal_difference_per_match'])
+
+        # Add the "expected" column
+        a1, a2, a3, a4, bias = 0.5, 0.3, 0.1, 0.4, 0.2  # Define weights
+        team_stats['expected'] = (
+            a1 * team_stats['goals_scored_per_match'] +
+            a2 * team_stats['goal_difference_per_match'] +
+            a3 * team_stats['win_rate'] +
+            a4 * team_stats['scoring_strength'] +
+            bias
+        )
+
     except Exception as e:
         print(f"Error during data processing: {e}")
         return
