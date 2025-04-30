@@ -1,6 +1,7 @@
 import pandas as pd
 import os
-import time
+from sklearn.linear_model import LinearRegression
+import numpy as np
 
 
 def update_data_to_csv():
@@ -58,14 +59,31 @@ def update_data_to_csv():
         team_stats['loss_rate'] = (team_stats['matches_lost'] / team_stats['matches_played']) * 100
         team_stats['scoring_strength'] = team_stats['goals_scored_per_match'] + (0.5 * team_stats['goal_difference_per_match'])
 
-        # Add the "expected" column
-        a1, a2, a3, a4, bias = 0.5, 0.3, 0.1, 0.4, 0.2  # Define weights
+        # Add the "previous goals" column
+        team_stats['previous_goals'] = team_stats['goals_for'].shift(1).fillna(0)
+
+        # Adjust weights and bias using linear regression
+        features = ['goals_scored_per_match', 'goal_difference_per_match', 'win_rate', 'scoring_strength']
+        data = team_stats.dropna(subset=features + ['previous_goals'])
+
+        X = data[features].values
+        y = data['previous_goals'].values
+
+        # Train the model
+        model = LinearRegression()
+        model.fit(X, y)
+
+        # Get updated weights and bias
+        new_weights = model.coef_
+        new_bias = model.intercept_
+
+        # Recompute "expected goals" using updated weights and bias
         team_stats['expected'] = (
-            a1 * team_stats['goals_scored_per_match'] +
-            a2 * team_stats['goal_difference_per_match'] +
-            a3 * team_stats['win_rate'] +
-            a4 * team_stats['scoring_strength'] +
-            bias
+            new_weights[0] * team_stats['goals_scored_per_match'] +
+            new_weights[1] * team_stats['goal_difference_per_match'] +
+            new_weights[2] * team_stats['win_rate'] +
+            new_weights[3] * team_stats['scoring_strength'] +
+            new_bias
         )
 
     except Exception as e:
@@ -90,3 +108,4 @@ def update_data_to_csv():
 
 if __name__ == "__main__":
     update_data_to_csv()
+
