@@ -131,7 +131,7 @@ def update_weights_and_predict(TOP_TEAMS, actual_goals_column):
     #print("Updated weights:", dict(zip(features, new_weights)))
     #print("Updated bias:", new_bias)
 # Example usage:
-TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='actual_goals_last_match')
+#TOP_TEAMS = update_weights_and_predict(TOP_TEAMS, actual_goals_column='actual_goals_last_match')
 
 def update_data_to_csv():
     global TOP_TEAMS
